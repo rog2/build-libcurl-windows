@@ -25,12 +25,11 @@ set ROOT_DIR="%CD%"
 set RM="%CD%\bin\unxutils\rm.exe"
 set CP="%CD%\bin\unxutils\cp.exe"
 set MKDIR="%CD%\bin\unxutils\mkdir.exe"
-set SEVEN_ZIP="%CD%\bin\7-zip\7za.exe"
 
 REM Housekeeping
 %RM% -rf tmp_*
 %RM% -rf third-party
-%RM% -rf curl.zip
+%RM% -rf curl-*.zip
 %RM% -rf build_*.txt
 
 REM Download curl
@@ -40,7 +39,6 @@ powershell -Command [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityP
     Invoke-WebRequest -Uri "https://curl.haxx.se/download/%CURL_ZIP%" -OutFile %CURL_ZIP%
 
 REM Extract downloaded zip file to tmp_libcurl
-REM %SEVEN_ZIP% x curl-%CURL_VERSION%.zip -y -otmp_libcurl | FIND /V "ing  " | FIND /V "Igor Pavlov"
 powershell -Command Expand-Archive -Path %CURL_ZIP% -DestinationPath tmp_libcurl
 
 cd tmp_libcurl\curl-*\winbuild
@@ -59,6 +57,7 @@ if [%1]==[-static] (
 	echo Using /MT instead of /MD
 ) 
 
+REM We only need x64 build
 call %VS2017DEVCMD% -arch=x64
 cd /d "%ROOT_DIR%\tmp_libcurl\curl-*\winbuild"
 
