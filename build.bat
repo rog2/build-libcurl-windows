@@ -1,7 +1,15 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set CURL_VERSION=7.58.0
+@REM 
+@REM Please make sure the following environment variables are set before calling this script:
+@REM CURL_VERSION - Release version string.
+@REM 
+
+@if "%CURL_VERSION%"=="" (
+    echo CURL_VERSION is not set, exit.
+    exit /b 1
+)
 
 set CURL_ZIP=curl-%CURL_VERSION%.zip
 
