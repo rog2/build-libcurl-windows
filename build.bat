@@ -47,6 +47,7 @@ powershell -Command [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityP
     Invoke-WebRequest -Uri "https://curl.haxx.se/download/%CURL_ZIP%" -OutFile %CURL_ZIP%
 
 REM Extract downloaded zip file to tmp_libcurl
+echo Extracting %CURL_ZIP%
 powershell -Command Expand-Archive -Path %CURL_ZIP% -DestinationPath tmp_libcurl
 
 cd tmp_libcurl\curl-*\winbuild
@@ -58,6 +59,7 @@ if %COMPILER_VER% == "2017" (
 
 :buildnow
 REM Build!
+echo Build now!
 echo %VS2017DEVCMD%
 
 if [%1]==[-static] (
